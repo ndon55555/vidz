@@ -49,3 +49,4 @@ RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=cache,id=${POETRY_VENV_CACHE_ID},target=/built-venv \
     mkdir -p ${POETRY_VENV_LOCATION} && cp -r /built-venv/* ${POETRY_VENV_LOCATION}
 COPY $SOURCE_APP_DIR /app/
+WORKDIR /app

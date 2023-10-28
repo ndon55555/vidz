@@ -29,6 +29,6 @@ services:
 
   back-lint:
     <<: *x-back-dev
-    command: black /app; isort /app; flake8 /app
+    command: black /app; isort /app; flake8 /app; mypy /app
     volumes:
       - ./back/app:/app
