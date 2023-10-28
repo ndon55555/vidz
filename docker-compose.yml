@@ -1,6 +1,31 @@
 version: '3'
 
+x-back-build-context: &x-back-build-context ./back
+x-back-build-args: &x-back-build-args
+  PROJECT_NAME: vidz-back
+x-back-develop: &x-back-develop
+  watch:
+    - action: sync
+      path: ./back/app
+      target: /app
+    - action: rebuild
+      path: ./back/poetry.lock
+
 services:
   back:
     build:
-      context: ./back
+      context: *x-back-build-context
+      args:
+        <<: *x-back-build-args
+    develop:
+      <<: *x-back-develop
+
+  back-dev:
+    build:
+      context: *x-back-build-context
+      args:
+        <<: *x-back-build-args
+        CACHE_ID_PREFIX: dev
+        POETRY_INSTALL_WITH: dev
+    develop:
+      <<: *x-back-develop
