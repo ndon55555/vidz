@@ -27,8 +27,21 @@ services:
         - action: rebuild
           path: ./back/poetry.lock
 
+
   back-lint:
     <<: *x-back-dev
     command: black /app; isort /app; flake8 /app; mypy /app
     volumes:
       - ./back/app:/app
+
+  front:
+    build:
+      context: ./front
+      args:
+        PROJECT_NAME: vidz-front
+    ports:
+      - 8080:80
+    develop:
+      watch:
+        - action: rebuild
+          path: ./front/src
