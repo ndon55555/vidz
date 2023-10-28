@@ -44,6 +44,8 @@ ENV PYTHONPATH=/app:${PYTHONPATH}
 ENV PYTHONUNBUFFERED=1
 # Trigger build stage to generate venv cache
 COPY --from=build /BUILD_SUCCEEDED /BUILD_SUCCEEDED
-RUN --mount=type=cache,id=${POETRY_VENV_CACHE_ID},target=/built-venv \
+RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=poetry.lock,target=poetry.lock \
+    --mount=type=cache,id=${POETRY_VENV_CACHE_ID},target=/built-venv \
     mkdir -p ${POETRY_VENV_LOCATION} && cp -r /built-venv/* ${POETRY_VENV_LOCATION}
 COPY $SOURCE_APP_DIR /app/
